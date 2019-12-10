@@ -1,0 +1,88 @@
+﻿@page "/AddFlight"
+@using SEP3_TIER1.Data
+@using System.Net.Http
+@inject HttpClient Http
+
+<div class="page-wrapper bg-img-2 p-t-290 p-b-120">
+    <div class="wrapper wrapper--w1226">
+        <div class="headertable alignmiddle">
+            <div class="card-body">
+                <form>
+                    <div class="form-row">
+                        <div class="col-md-3 mb-3">
+                            <label class="mb-3"> Flight</label>
+                            <input type="text" class="form-control" @bind="bindFlight" placeholder="Ex: Wz43772" required/>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="mb-3">Airplane</label>
+                            <select class="form-control" @bind="bindAirplane">
+                               @{
+                                foreach (var data in Datas)
+                                {
+                                <option>@data.Model</option>
+                                }
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="mb-3">Airline</label>
+                            <input type="text" class="form-control" @bind="bindAirline" placeholder="Ex: Wizz Air" required />
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="mb-3">Origin</label>
+                            <input type="text" class="form-control" @bind="bindOrigin" placeholder="Ex: Aalborg" required />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-3 mb-3">
+                            <label class="mb-3">Destination</label>
+                            <input type="text" class="form-control" @bind="bindDestination" placeholder="Ex: Berlin" required/>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="mb-3">Departure time</label>
+                            <input type="datetime-local" class="form-control" @bind="bindDepartureTime" placeholder="Ex: 14:20" required />
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="mb-3">Arrival time</label>
+                            <input type="datetime-local" class="form-control" @bind="bindArrivalTime" placeholder="Ex: 16:05" required />
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <center> <button class="btn btn-primary  mt-4" @onclick="postRequest" type="submit">Submit</button></center>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<PlaneDTO> Datas = new List<PlaneDTO>();
+
+    public string bindFlight = "";
+    private string bindAirplane = "";
+    private string bindAirline = "";
+    private string bindOrigin = "";
+    private string bindDestination = "";
+    private string bindDepartureTime = "";
+    private string bindArrivalTime = "";
+
+    protected PlaneDTO create()
+    {
+        PlaneDTO DataToSend = new PlaneDTO { CallSign = bindFlight, Model= bindAirplane, Company = bindAirline, StartLocation= bindOrigin, EndLocation = bindDestination, DepartureTime= bindDepartureTime, ArrivalTime =bindArrivalTime };
+        return DataToSend;
+    }
+
+
+     protected override async Task OnInitializedAsync()
+    {
+        Datas = await Http.GetJsonAsync<List<PlaneDTO>>("https://localhost:44397/planes");
+  
+    }
+
+    private async Task postRequest()
+    {
+
+        await Http.PostJsonAsync("https://localhost:44397/post", create());
+    }
+}

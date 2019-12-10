@@ -1,0 +1,95 @@
+﻿@page "/search"
+@using SEP3_TIER1.Data
+@using System.Net.Http
+@inject HttpClient Http
+
+<div class="page-wrapper bg-img-2 p-t-290 p-b-120">
+    <div class="wrapper wrapper--w1226">
+        <div class="card card-5">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-4">
+                        <label type="text" class="label ">Search for a destination</label>
+                    </div>
+                    <div class="col-6">
+
+                        <input class="input--style-1 input-group" type="text" @bind="searchTerm" placeholder="City, Region or Airport" />
+
+                    </div>
+                    <div class="col-2">
+                        <button class="btn-success btn-submit" @onclick="SearchFlight">Search</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="wrapper wrapper--w1226">
+        <table class="table table-striped textedit">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Flight</th>
+                    <th scope="col">Airplane</th>
+                    <th scope="col">Airline</th>
+                    <th scope="col">Origin</th>
+                    <th scope="col">Destination</th>
+                    <th scope="col">Delay</th>
+                    <th scope="col">Departure time</th>
+                    <th scope="col">Arrival time</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @{
+                    int id = 1;
+                    foreach (var data in AirportDatas)
+                    {
+                        <tr>
+                                    <td>@id</td>
+                                    <td>@data.CallSign</td>
+                                    <td>@data.Model</td>
+                                    <td>@data.Company</td>
+                                    <td>@data.StartLocation</td>
+                                    <td>@data.EndLocation</td>
+                                    <td>@data.Delay</td>
+                                    <td>@data.DepartureTime</td>
+                                    <td>@data.ArrivalTime</td>
+                        </tr>
+                        id++;
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@code {
+   private List<PlaneDTO> datas = new List<PlaneDTO>();
+    private IList<PlaneDTO> AirportDatas = new List<PlaneDTO>();
+    int counter = 0;
+
+    private string searchTerm = "";
+
+      protected override async Task OnInitializedAsync()
+    {
+        datas = await Http.GetJsonAsync<List<PlaneDTO>>("https://localhost:44397/planes");
+        using var client = new HttpClient();
+    }
+
+    private void SearchFlight()
+    {
+        AirportDatas.Clear();
+        foreach (var data in datas)
+        {
+            if ((data.StartLocation.ToLower().Equals(searchTerm.ToLower()))
+                || (data.EndLocation.ToLower().Equals(searchTerm.ToLower())))
+            {
+                AirportDatas.Add(data);
+            }
+        }
+    }
+}
+
+
+
