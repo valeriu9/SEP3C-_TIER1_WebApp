@@ -3,9 +3,9 @@
 @using System.Net.Http
 @inject HttpClient Http
 
-<div class="page-wrapper bg-img-2 p-t-290 p-b-120">
+<div class="page-wrapper">
     <div class="wrapper wrapper--w1226">
-        <div class="card card-5">
+        <div class="card card-5 mt-2">
             <div class="card-body">
                 <div class="row">
                     <div class="col-4">
@@ -17,7 +17,7 @@
 
                     </div>
                     <div class="col-2">
-                        <button class="btn-success btn-submit" @onclick="SearchFlight">Search</button>
+                        <button class="btn  btn-personalized" @onclick="SearchFlight">Search</button>
 
                     </div>
                 </div>
@@ -47,15 +47,15 @@
                     foreach (var data in AirportDatas)
                     {
                         <tr>
-                                    <td>@id</td>
-                                    <td>@data.CallSign</td>
-                                    <td>@data.Model</td>
-                                    <td>@data.Company</td>
-                                    <td>@data.StartLocation</td>
-                                    <td>@data.EndLocation</td>
-                                    <td>@data.Delay</td>
-                                    <td>@data.DepartureTime</td>
-                                    <td>@data.ArrivalTime</td>
+                            <td>@id</td>
+                            <td>@data.CallSign</td>
+                            <td>@data.Model</td>
+                            <td>@data.Company</td>
+                            <td>@data.StartLocation</td>
+                            <td>@data.EndLocation</td>
+                            <td>@data.Delay</td>
+                            <td>@data.DepartureTime</td>
+                            <td>@data.ArrivalTime</td>
                         </tr>
                         id++;
                     }
@@ -65,13 +65,13 @@
     </div>
 </div>
 @code {
-   private List<PlaneDTO> datas = new List<PlaneDTO>();
+    private List<PlaneDTO> datas = new List<PlaneDTO>();
     private IList<PlaneDTO> AirportDatas = new List<PlaneDTO>();
     int counter = 0;
 
     private string searchTerm = "";
 
-      protected override async Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         datas = await Http.GetJsonAsync<List<PlaneDTO>>("https://localhost:44397/planes");
         using var client = new HttpClient();

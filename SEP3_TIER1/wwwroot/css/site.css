@@ -2,6 +2,7 @@
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color:lightgray;
 }
 
 a, .btn-link {
@@ -220,7 +221,7 @@ button {
    ========================================================================== */
 .page-wrapper {
     min-height: 91vh;
-   
+    background-color: lightgray;
 }
 
 
@@ -233,11 +234,7 @@ img {
 /* ==========================================================================
    #BACKGROUND
    ========================================================================== */
-.bg-img-2 {
-    background: url("/../Images/bg-img-02.jpg") center no-repeat;
-    background-size: cover;
-    padding-top:15px;
-}
+
 
 
 /* ==========================================================================
@@ -261,12 +258,16 @@ img {
 
 .wrapper--w1226 {
     max-width: 1226px;
+    background-color: #002f5f;
 }
 
 .textedit {
-    color: aliceblue;
-    font-size: 25px;
+    color: white;
+    font-size: 24px;
     margin-top: 2%;
+}
+.table th{
+    font-size: 22px;
 }
 .alignmiddle{
     margin-top:15%;
@@ -275,18 +276,21 @@ img {
 .headertable {
     width: 100%;
     font-size: 30px;
-    padding: 10px;
-    color: aliceblue;
-    background-image: -webkit-gradient(linear, left bottom, left top, from(#c949fe), to(#47a9ff));
-    background-image: -webkit-linear-gradient(bottom, #c949fe 0%, #47a9ff 100%);
-    background-image: -moz-linear-gradient(bottom, #c949fe 0%, #47a9ff 100%);
-    background-image: -o-linear-gradient(bottom, #c949fe 0%, #47a9ff 100%);
-    background-image: linear-gradient(to top, #c949fe 0%, #47a9ff 100%);
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
-    opacity: 0.9;
+    color: black;
+    background-color:lightgray;
+    padding-top: 10px;
+    padding-bottom:10px;
 }
+.iconImgResize {
+    width: 60px;
+    height: 60px;
+    display: inline-block;
+    filter : invert(1);
+}
+.table td {
+    vertical-align: middle;
+}
+
 /* ==========================================================================
    #BUTTON
    ========================================================================== */
@@ -442,8 +446,10 @@ textarea {
     position: relative;
     background: transparent;
 }
-.card-body{
+.card-body {
     line-height: 0.5rem;
+    background-color: #002f5f;
+    color: white;
 }
 
     .card-5::before {
@@ -454,14 +460,7 @@ textarea {
         left: 0;
         right: 0;
         bottom: 0;
-        background-image: -webkit-gradient(linear, left bottom, left top, from(#c949fe), to(#47a9ff));
-        background-image: -webkit-linear-gradient(bottom, #c949fe 0%, #47a9ff 100%);
-        background-image: -moz-linear-gradient(bottom, #c949fe 0%, #47a9ff 100%);
-        background-image: -o-linear-gradient(bottom, #c949fe 0%, #47a9ff 100%);
-        background-image: linear-gradient(to top, #c949fe 0%, #47a9ff 100%);
-        -webkit-border-radius: 10px;
-        -moz-border-radius: 10px;
-        border-radius: 10px;
+
         opacity: 0.9;
     }
 
@@ -469,13 +468,18 @@ textarea {
 .card-5 .card-body {
     padding: 38px 54px;
     padding-bottom: 17px;
-    initial
 }
 @media (max-width: 767px) {
     .card-5 .card-body {
         padding: 40px 30px;
         padding-bottom: 17px;
     }
+}
+.btn-personalized {
+    background-color: white;
+    color: #3a0647;
+    font-size: 20px;
+    font-weight:600;
 }
 
 

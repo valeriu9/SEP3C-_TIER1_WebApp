@@ -5,128 +5,114 @@
 @inject IJSRuntime JsRuntime
 @using System.Text.Json
 
-<div class="page-wrapper bg-img-2 p-t-290 p-b-120">
-    <div class="wrapper wrapper--w1226">
-        <div class="headertable">
-            <div class="card-body">
-                <label><b>Outbound</b></label>
-            </div>
+<div class="wrapper wrapper--w1226">
+    <div class="headertable">
+        <div class="card-body">
+            <div class="iconImgResize"> <img src="/Images/departure.png" /></div><b>Outbound</b>
         </div>
-        <table class="table table-striped textedit">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Flight</th>
-                    <th scope="col">Airplane</th>
-                    <th scope="col">Airline</th>
-                    <th scope="col">Origin</th>
-                    <th scope="col">Destination</th>
-                    <th scope="col">Delay</th>
-                    <th scope="col">Departure time</th>
-                    <th scope="col">Arrival time</th>
-                    <th></th>
-                </tr>
-            </thead>
-
-            <tbody>
-
-                @{
-                    int idn = 1;
-                    foreach (var data in datas)
-                    {
-
-                        if (data.StartLocation == "Aalborg")
-
-                        {
-                            var flight = data.CallSign;
-                            var departure = data.DepartureTime;
-                            var arrival = data.ArrivalTime;
-                            <tr>
-                                <td>@idn</td>
-                                <td>@data.CallSign</td>
-                                <td>@data.Model</td>
-                                <td>@data.Company</td>
-                                <td>@data.StartLocation</td>
-                                <td>@data.EndLocation</td>
-                                <td>@data.Delay</td>
-                                <td>@data.DepartureTime</td>
-                                <td>@data.ArrivalTime</td>
-                                <td><button class="btn-danger w-100" @onclick="(e => DeleteItem(data.CallSign, data.DepartureTime, data.ArrivalTime))">X</button></td>
-                            </tr>
-                            idn++;
-                        }
-                    }
-                }
-
-            </tbody>
-        </table>
-
-        <div class="headertable">
-            <div class="card-body">
-                <label><b>Inbound</b></label>
-            </div>
-        </div>
-
-        <table class="table table-striped textedit">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Flight</th>
-                    <th scope="col">Airplane</th>
-                    <th scope="col">Airline</th>
-                    <th scope="col">Origin</th>
-                    <th scope="col">Destination</th>
-                    <th scope="col">Delay</th>
-                    <th scope="col">Departure time</th>
-                    <th scope="col">Arrival time</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @{
-                    int id = 1;
-                    foreach (var data in datas)
-                    {
-
-                        if (!(data.StartLocation == "Aalborg"))
-
-                        {
-                            var flight = data.CallSign;
-                            var departure = data.DepartureTime;
-                            var arrival = data.ArrivalTime;
-                            <tr>
-                                <td>@id</td>
-                                <td>@data.CallSign</td>
-                                <td>@data.Model</td>
-                                <td>@data.Company</td>
-                                <td>@data.StartLocation</td>
-                                <td>@data.EndLocation</td>
-                                <td>@data.Delay</td>
-                                <td>@data.DepartureTime</td>
-                                <td>@data.ArrivalTime</td>
-                                <td><button class="btn-danger w-100" @onclick="(e => DeleteItem(data.CallSign, data.DepartureTime, data.ArrivalTime))">X</button></td>
-                            </tr>
-                            id++;
-                        }
-                    }
-                }
-            </tbody>
-        </table>
     </div>
+    <table class="table table-striped textedit">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Flight</th>
+                <th scope="col">Airplane</th>
+                <th scope="col">Airline</th>
+                <th scope="col">Origin</th>
+                <th scope="col">Destination</th>
+                <th scope="col">Delay</th>
+                <th scope="col">Departure time</th>
+                <th scope="col">Arrival time</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @{
+                int idn = 1;
+                foreach (var data in datas)
+                {
+                    if (data.StartLocation == "Aalborg")
+                    {
+                        var flight = data.CallSign;
+                        <tr>
+                            <td>@idn</td>
+                            <td>@data.CallSign</td>
+                            <td>@data.Model</td>
+                            <td>@data.Company</td>
+                            <td>@data.StartLocation</td>
+                            <td>@data.EndLocation</td>
+                            <td>@data.Delay</td>
+                            <td>@data.DepartureTime</td>
+                            <td>@data.ArrivalTime</td>
+                            <td valign="middle"><button class="btn btn-danger " @onclick="(e => DeleteItem(data.CallSign))">X</button></td>
+                        </tr>
+                        idn++;
+                    }
+                }
+            }
+        </tbody>
+    </table>
+
+    <div class="headertable">
+        <div class="card-body">
+            <div class="iconImgResize"> <img src="/Images/arrival.png" /></div><b>Inbound</b>
+        </div>
+    </div>
+
+    <table class="table table-striped textedit">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Flight</th>
+                <th scope="col">Airplane</th>
+                <th scope="col">Airline</th>
+                <th scope="col">Origin</th>
+                <th scope="col">Destination</th>
+                <th scope="col">Delay</th>
+                <th scope="col">Departure time</th>
+                <th scope="col">Arrival time</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int id = 1;
+                foreach (var data in datas)
+                {
+                    if (!(data.StartLocation == "Aalborg"))
+                    {
+                        var flight = data.CallSign;
+                        <tr>
+                            <td>@id</td>
+                            <td>@data.CallSign</td>
+                            <td>@data.Model</td>
+                            <td>@data.Company</td>
+                            <td>@data.StartLocation</td>
+                            <td>@data.EndLocation</td>
+                            <td>@data.Delay</td>
+                            <td>@data.DepartureTime</td>
+                            <td>@data.ArrivalTime</td>
+                            <td valign="middle"><button class="btn btn-danger " @onclick="(e => DeleteItem(data.CallSign))">X</button></td>
+                        </tr>
+                        id++;
+                    }
+                }
+            }
+        </tbody>
+    </table>
 </div>
 
 @code{
-
-
-
     private List<PlaneDTO> datas = new List<PlaneDTO>();
     private PlaneDTO ItemToBeDeleted;
     protected override async Task OnInitializedAsync()
     {
-    datas = await Http.GetJsonAsync<List<PlaneDTO>>("https://localhost:44397/planes");
+        datas = await Http.GetJsonAsync<List<PlaneDTO>>("https://localhost:44397/planes");
     }
 
-    async void DeleteItem(string Flight, string departure, string arrival)
+    async void DeleteItem(string Flight)
     {
         bool isConfirmed = await JsRuntime.InvokeAsync<bool>("confirmDelete");
         if (isConfirmed)
@@ -135,18 +121,20 @@
             {
                 foreach (var data in datas)
                 {
-                    if (data.CallSign == Flight && data.DepartureTime == departure && data.ArrivalTime == arrival)
+                    if (data.CallSign == Flight)
                     {
-                            datas.Remove(data);
+                        datas.Remove(data);
+                         await Http.DeleteAsync("https://localhost:44397/planes/"+data.CallSign);
+                        await JsRuntime.InvokeVoidAsync("refresh");
                     }
                 }
+
             }
             catch (Exception e)
             {
 
             }
+            
         }
     }
-
-
 }

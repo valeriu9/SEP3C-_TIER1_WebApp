@@ -2,8 +2,6 @@
 @using SEP3_TIER1.Data
 @using System.Net.Http
 @inject HttpClient Http
-
-<div class="page-wrapper bg-img-2 p-t-290 p-b-120">
     <div class="wrapper wrapper--w1226">
         <div class="headertable alignmiddle">
             <div class="card-body">
@@ -40,21 +38,20 @@
                         </div>
                         <div class="col-md-3 mb-3">
                             <label class="mb-3">Departure time</label>
-                            <input type="datetime-local" class="form-control" @bind="bindDepartureTime" placeholder="Ex: 14:20" required />
+                            <input type="datetime-local" class="form-control" @bind="bindDepartureTime" required />
                         </div>
                         <div class="col-md-3 mb-3">
                             <label class="mb-3">Arrival time</label>
-                            <input type="datetime-local" class="form-control" @bind="bindArrivalTime" placeholder="Ex: 16:05" required />
+                            <input type="datetime-local" class="form-control" @bind="bindArrivalTime" required />
                         </div>
                         <div class="col-md-3 mb-3">
-                            <center> <button class="btn btn-primary  mt-4" @onclick="postRequest" type="submit">Submit</button></center>
+                            <center> <button class="btn btn-personalized  mt-4" @onclick="postRequest" type="submit">Submit</button></center>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-</div>
 
 @code {
     private List<PlaneDTO> Datas = new List<PlaneDTO>();
@@ -64,25 +61,31 @@
     private string bindAirline = "";
     private string bindOrigin = "";
     private string bindDestination = "";
-    private string bindDepartureTime = "";
+    private string bindDepartureTime ="" ;
     private string bindArrivalTime = "";
+    private string errorLabel = "";
 
     protected PlaneDTO create()
     {
-        PlaneDTO DataToSend = new PlaneDTO { CallSign = bindFlight, Model= bindAirplane, Company = bindAirline, StartLocation= bindOrigin, EndLocation = bindDestination, DepartureTime= bindDepartureTime, ArrivalTime =bindArrivalTime };
-        return DataToSend;
+        PlaneDTO DataToSend = new PlaneDTO { CallSign = bindFlight, Model= bindAirplane, Company = bindAirline, StartLocation= bindOrigin, EndLocation = bindDestination, DepartureTime= bindDepartureTime.ToString().Replace("T"," ").Replace("-","/"), ArrivalTime =bindArrivalTime.ToString().Replace("T"," ").Replace("-","/") };
+        foreach (var data in Datas)
+            if (!(data.Company.Equals(DataToSend.Company) && data.Model.Equals(DataToSend.Model) && data.DepartureTime.Equals(DataToSend.DepartureTime) && data.ArrivalTime.Equals(DataToSend.ArrivalTime)))
+            {
+                break;
+            }
+           return DataToSend;
     }
 
 
-     protected override async Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         Datas = await Http.GetJsonAsync<List<PlaneDTO>>("https://localhost:44397/planes");
-  
+
     }
 
     private async Task postRequest()
     {
 
-        await Http.PostJsonAsync("https://localhost:44397/post", create());
+        await Http.PostJsonAsync("https://localhost:44397/planes", create());
     }
 }
