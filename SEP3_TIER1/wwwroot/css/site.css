@@ -27,7 +27,7 @@ app {
     align-items: center;
     margin-top: 1.5%;
     background-color:aliceblue;
-    border-radius:3px;
+    border-radius:10px;
 }
 .logo {
     max-width: 95%;
@@ -258,16 +258,26 @@ img {
 
 .wrapper--w1226 {
     max-width: 1226px;
-    background-color: #002f5f;
 }
 
 .textedit {
     color: white;
     font-size: 24px;
-    margin-top: 2%;
 }
 .table th{
     font-size: 22px;
+}
+.table {
+    background-color: #002f5f;
+    margin: 0;
+    border-radius:10px;
+}
+table tr:last-child td:first-child {
+    border-bottom-left-radius: 10px;
+}
+
+table tr:last-child td:last-child {
+    border-bottom-right-radius: 10px;
 }
 .alignmiddle{
     margin-top:15%;
@@ -280,6 +290,7 @@ img {
     background-color:lightgray;
     padding-top: 10px;
     padding-bottom:10px;
+    border-radius:2px;
 }
 .iconImgResize {
     width: 60px;
@@ -445,11 +456,13 @@ textarea {
 .card-5 {
     position: relative;
     background: transparent;
+    border-radius: 10px;
 }
 .card-body {
     line-height: 0.5rem;
     background-color: #002f5f;
     color: white;
+    border-radius:10px;
 }
 
     .card-5::before {

@@ -13,12 +13,11 @@
                     </div>
                     <div class="col-6">
 
-                        <input class="input--style-1 input-group" type="text" @bind="searchTerm" placeholder="City, Region or Airport" />
+                        <input class="input--style-1 input-group" type="text" @bind-value="searchTerm" @bind-value:event="oninput" @onkeypress="SearchFlight" placeholder="City, Region or Airport" />
 
                     </div>
                     <div class="col-2">
-                        <button class="btn  btn-personalized" @onclick="SearchFlight">Search</button>
-
+                        <button class="btn  btn-personalized" @onclick="SearchFlight" >Search</button>
                     </div>
                 </div>
             </div>
@@ -67,14 +66,12 @@
 @code {
     private List<PlaneDTO> datas = new List<PlaneDTO>();
     private IList<PlaneDTO> AirportDatas = new List<PlaneDTO>();
-    int counter = 0;
 
     private string searchTerm = "";
 
     protected override async Task OnInitializedAsync()
     {
         datas = await Http.GetJsonAsync<List<PlaneDTO>>("https://localhost:44397/planes");
-        using var client = new HttpClient();
     }
 
     private void SearchFlight()
