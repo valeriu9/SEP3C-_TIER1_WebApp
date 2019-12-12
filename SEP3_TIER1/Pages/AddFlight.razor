@@ -2,56 +2,57 @@
 @using SEP3_TIER1.Data
 @using System.Net.Http
 @inject HttpClient Http
-    <div class="wrapper wrapper--w1226">
-        <div class="headertable alignmiddle">
-            <div class="card-body">
-                <form>
-                    <div class="form-row">
-                        <div class="col-md-3 mb-3">
-                            <label class="mb-3"> Flight</label>
-                            <input type="text" class="form-control" @bind="bindFlight" placeholder="Ex: Wz43772" required/>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label class="mb-3">Airplane</label>
-                            <select class="form-control" @bind="bindAirplane">
-                               @{
+@using MatBlazor
+<div class="wrapper wrapper--w1226 wrapperHeight">
+    <div class="headertable alignmiddle">
+        <div class="card-body">
+            <form>
+                <div class="form-row">
+                    <div class="col-md-3 mb-3">
+                        <label class="mb-3"> Flight</label>
+                        <input type="text" class="form-control" @bind="bindFlight" placeholder="Ex: Wz43772" required />
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="mb-3">Airplane</label>
+                        <select class="form-control" @bind="bindAirplane">
+                            @{
                                 foreach (var data in Datas)
                                 {
-                                <option>@data.Model</option>
+                                    <option>@data.Model</option>
                                 }
-                                }
-                            </select>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label class="mb-3">Airline</label>
-                            <input type="text" class="form-control" @bind="bindAirline" placeholder="Ex: Wizz Air" required />
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label class="mb-3">Origin</label>
-                            <input type="text" class="form-control" @bind="bindOrigin" placeholder="Ex: Aalborg" required />
-                        </div>
+                            }
+                        </select>
                     </div>
-                    <div class="form-row">
-                        <div class="col-md-3 mb-3">
-                            <label class="mb-3">Destination</label>
-                            <input type="text" class="form-control" @bind="bindDestination" placeholder="Ex: Berlin" required/>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label class="mb-3">Departure time</label>
-                            <input type="datetime-local" class="form-control" @bind="bindDepartureTime" required />
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label class="mb-3">Arrival time</label>
-                            <input type="datetime-local" class="form-control" @bind="bindArrivalTime" required />
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <center> <button class="btn btn-personalized  mt-4" @onclick="postRequest" type="submit">Submit</button></center>
-                        </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="mb-3">Airline</label>
+                        <input type="text" class="form-control" @bind="bindAirline" placeholder="Ex: Wizz Air" required />
                     </div>
-                </form>
-            </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="mb-3">Origin</label>
+                        <input type="text" class="form-control" @bind="bindOrigin" placeholder="Ex: Aalborg" required />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-3 mb-3">
+                        <label class="mb-3">Destination</label>
+                        <input type="text" class="form-control" @bind="bindDestination" placeholder="Ex: Berlin" required />
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="mb-3">Departure time</label>
+                        <MatDatePicker @bind-Value="bindDepartureTime"  Format="dd/MM/yyyy HH:mm"></MatDatePicker>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="mb-3">Arrival time</label>
+                        <MatDatePicker @bind-Value="bindArrivalTime"  Format="dd/MM/yyyy HH:mm"></MatDatePicker>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <center> <button class="btn btn-personalized  mt-4" @onclick="postRequest" type="submit">Submit</button></center>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 
 @code {
     private List<PlaneDTO> Datas = new List<PlaneDTO>();
@@ -61,19 +62,20 @@
     private string bindAirline = "";
     private string bindOrigin = "";
     private string bindDestination = "";
-    private string bindDepartureTime ="" ;
-    private string bindArrivalTime = "";
+    private DateTime bindDepartureTime = new DateTime();
+    private DateTime bindArrivalTime = new DateTime();
     private string errorLabel = "";
 
     protected PlaneDTO create()
     {
-        PlaneDTO DataToSend = new PlaneDTO { CallSign = bindFlight, Model= bindAirplane, Company = bindAirline, StartLocation= bindOrigin, EndLocation = bindDestination, DepartureTime= bindDepartureTime.ToString().Replace("T"," ").Replace("-","/"), ArrivalTime =bindArrivalTime.ToString().Replace("T"," ").Replace("-","/") };
+
+        PlaneDTO DataToSend = new PlaneDTO { CallSign = bindFlight, Model = bindAirplane, Company = bindAirline, StartLocation = bindOrigin, EndLocation = bindDestination, DepartureTime = bindDepartureTime.ToString("dd/MM/yyyy HH:mm"), ArrivalTime = bindArrivalTime.ToString("dd/MM/yyyy HH:mm") };
         foreach (var data in Datas)
             if (!(data.Company.Equals(DataToSend.Company) && data.Model.Equals(DataToSend.Model) && data.DepartureTime.Equals(DataToSend.DepartureTime) && data.ArrivalTime.Equals(DataToSend.ArrivalTime)))
             {
                 break;
             }
-           return DataToSend;
+        return DataToSend;
     }
 
 

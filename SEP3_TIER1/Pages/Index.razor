@@ -125,8 +125,9 @@
                 {
                     if (data.CallSign == Flight)
                     {
-                         await Http.DeleteAsync("https://localhost:44397/planes/"+data.CallSign);
-                        await JsRuntime.InvokeVoidAsync("refresh");
+                        datas.Remove(data);
+                        await Http.DeleteAsync("https://localhost:44397/planes/"+data.CallSign);
+                        this.StateHasChanged();
                     }
                 }
 

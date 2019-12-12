@@ -3,6 +3,8 @@
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     background-color:lightgray;
+    height:100%;
+    margin:0;
 }
 
 a, .btn-link {
@@ -20,8 +22,18 @@ app {
     display: block;
     flex-direction: column;
 }
-
-.top-row {
+.mdc-text-field {
+    border-radius:4px !important;
+    height: 38px !important;
+    width:100% !important;
+}
+.mdc-text-field__input {
+    padding: 9px 16px 6px !important;
+}
+    .material-icons {
+    color:dimgrey !important;
+}
+    .top-row {
     height: 3.5rem;
     display: flex;
     align-items: center;
@@ -220,8 +232,8 @@ button {
    #PAGE WRAPPER
    ========================================================================== */
 .page-wrapper {
-    min-height: 91vh;
-    background-color: lightgray;
+    height:100%
+    
 }
 
 
@@ -291,6 +303,7 @@ table tr:last-child td:last-child {
     padding-top: 10px;
     padding-bottom:10px;
     border-radius:2px;
+
 }
 .iconImgResize {
     width: 60px;
