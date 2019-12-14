@@ -69,7 +69,7 @@
     protected PlaneDTO create()
     {
 
-        PlaneDTO DataToSend = new PlaneDTO { CallSign = bindFlight, Model = bindAirplane, Company = bindAirline, StartLocation = bindOrigin, EndLocation = bindDestination, DepartureTime = bindDepartureTime.ToString("dd/MM/yyyy HH:mm"), ArrivalTime = bindArrivalTime.ToString("dd/MM/yyyy HH:mm") };
+        PlaneDTO DataToSend = new PlaneDTO { CallSign = bindFlight, Model = bindAirplane, Company = bindAirline, StartLocation = bindOrigin, EndLocation = bindDestination, DepartureTime = bindDepartureTime.ToString("dd/MM/yyyy HH:mm:ss"), ArrivalTime = bindArrivalTime.ToString("dd/MM/yyyy HH:mm:ss") };
         foreach (var data in Datas)
             if (!(data.Company.Equals(DataToSend.Company) && data.Model.Equals(DataToSend.Model) && data.DepartureTime.Equals(DataToSend.DepartureTime) && data.ArrivalTime.Equals(DataToSend.ArrivalTime)))
             {
@@ -88,6 +88,6 @@
     private async Task postRequest()
     {
 
-        await Http.PostJsonAsync("https://localhost:44397/planes", create());
+        await Http.PostJsonAsync("https://localhost:44397/FlightPlans", create());
     }
 }

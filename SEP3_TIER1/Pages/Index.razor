@@ -111,7 +111,7 @@
     private PlaneDTO ItemToBeDeleted;
     protected override async Task OnInitializedAsync()
     {
-        datas = await Http.GetJsonAsync<List<PlaneDTO>>("https://localhost:44397/planes");
+        datas = await Http.GetJsonAsync<List<PlaneDTO>>("https://localhost:44397/FlightPlans");
     }
 
     async void DeleteItem(string Flight)
@@ -126,7 +126,7 @@
                     if (data.CallSign == Flight)
                     {
                         datas.Remove(data);
-                        await Http.DeleteAsync("https://localhost:44397/planes/"+data.CallSign);
+                        await Http.DeleteAsync("https://localhost:44397/FlightPlans/"+data.CallSign);
                         this.StateHasChanged();
                     }
                 }
