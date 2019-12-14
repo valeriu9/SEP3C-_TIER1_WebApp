@@ -16,7 +16,12 @@ a, .btn-link {
     background-color: #1b6ec2;
     border-color: #1861ac;
 }
-
+.validation-message {
+    color: red;
+    font-size: 18px;
+    margin-top: 10px;
+    line-height: 100%;
+}
 app {
     position: relative;
     display: block;
@@ -292,7 +297,7 @@ table tr:last-child td:last-child {
     border-bottom-right-radius: 10px;
 }
 .alignmiddle{
-    margin-top:15%;
+    margin-top:14%;
 }
 
 .headertable {

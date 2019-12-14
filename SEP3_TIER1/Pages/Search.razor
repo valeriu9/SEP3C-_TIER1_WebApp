@@ -71,19 +71,26 @@
 
     protected override async Task OnInitializedAsync()
     {
-        datas = await Http.GetJsonAsync<List<PlaneDTO>>("https://localhost:44397/planes");
+        datas = await Http.GetJsonAsync<List<PlaneDTO>>("https://localhost:44397/FlightPlans");
     }
 
     private void SearchFlight()
     {
-        AirportDatas.Clear();
-        foreach (var data in datas)
+            AirportDatas.Clear();
+         try
         {
-            if ((data.StartLocation.ToLower().Equals(searchTerm.ToLower()))
-                || (data.EndLocation.ToLower().Equals(searchTerm.ToLower())))
+            foreach (var data in datas)
             {
-                AirportDatas.Add(data);
+                if ((data.StartLocation.ToLower().Equals(searchTerm.ToLower()))
+                    || (data.EndLocation.ToLower().Equals(searchTerm.ToLower())))
+                {
+                    AirportDatas.Add(data);
+                }
             }
+        }
+        catch (Exception e)
+        {
+                
         }
     }
 }

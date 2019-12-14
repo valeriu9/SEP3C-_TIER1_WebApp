@@ -5,80 +5,94 @@
 @using MatBlazor
 <div class="wrapper wrapper--w1226 wrapperHeight">
     <div class="headertable alignmiddle">
+        <label class="text-danger m-2">@relationship</label>
         <div class="card-body">
-            <form>
+            <EditForm Model="@planeDTO"  >
+                <DataAnnotationsValidator />
                 <div class="form-row">
                     <div class="col-md-3 mb-3">
                         <label class="mb-3"> Flight</label>
-                        <input type="text" class="form-control" @bind="bindFlight" placeholder="Ex: Wz43772" required />
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <label class="mb-3">Airplane</label>
-                        <select class="form-control" @bind="bindAirplane">
-                            @{
-                                foreach (var data in Datas)
-                                {
-                                    <option>@data.Model</option>
-                                }
-                            }
-                        </select>
+                        <InputText class="form-control" @bind-Value="planeDTO.CallSign" placeholder="Ex: Wz43772" />
+                        <ValidationMessage For="@(() => planeDTO.CallSign)" />
                     </div>
                     <div class="col-md-3 mb-3">
                         <label class="mb-3">Airline</label>
-                        <input type="text" class="form-control" @bind="bindAirline" placeholder="Ex: Wizz Air" required />
+                        <InputText class="form-control" @bind-Value="planeDTO.Company" placeholder="Ex: Wizz Air" />
+                        <ValidationMessage For="@(() => planeDTO.Company)" />
+
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="mb-3">Airplane</label>
+                        <InputSelect class="form-control" id="classification" @bind-Value="planeDTO.Model">
+                            @{
+                                <option value="">Select...</option>
+                                foreach (var data in Datas)
+                                {
+                                    if (data.Company.Contains(planeDTO.Company))
+                                    {
+
+                                        <option value="@data.Model">@data.Model</option>
+                                    }
+                                }
+                            }
+                        </InputSelect>
+                        <ValidationMessage For="@(() => planeDTO.Model)" />
                     </div>
                     <div class="col-md-3 mb-3">
                         <label class="mb-3">Origin</label>
-                        <input type="text" class="form-control" @bind="bindOrigin" placeholder="Ex: Aalborg" required />
+                        <InputText class="form-control" @bind-Value="planeDTO.StartLocation" placeholder="Ex: Aalborg" />
+                        <ValidationMessage For="@(() => planeDTO.StartLocation)" />
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col-md-3 mb-3">
                         <label class="mb-3">Destination</label>
-                        <input type="text" class="form-control" @bind="bindDestination" placeholder="Ex: Berlin" required />
+                        <InputText class="form-control" @bind-Value="planeDTO.EndLocation" placeholder="Ex: Berlin" />
+                        <ValidationMessage For="@(() => planeDTO.EndLocation)" />
                     </div>
                     <div class="col-md-3 mb-3">
                         <label class="mb-3">Departure time</label>
-                        <MatDatePicker @bind-Value="bindDepartureTime"  Format="dd/MM/yyyy HH:mm"></MatDatePicker>
+                        <MatDatePicker @bind-Value="bindDepartureTime" Format="dd/MM/yyyy HH:mm"></MatDatePicker>
                     </div>
                     <div class="col-md-3 mb-3">
                         <label class="mb-3">Arrival time</label>
-                        <MatDatePicker @bind-Value="bindArrivalTime"  Format="dd/MM/yyyy HH:mm"></MatDatePicker>
+                        <MatDatePicker @bind-Value="bindArrivalTime" Format="dd/MM/yyyy HH:mm"></MatDatePicker>
                     </div>
                     <div class="col-md-3 mb-3">
-                        <center> <button class="btn btn-personalized  mt-4" @onclick="postRequest" type="submit">Submit</button></center>
+                        <center> <button type="submit" class="btn btn-personalized  mt-4" @onclick="postRequest" >Submit</button></center>
                     </div>
                 </div>
-            </form>
+            </EditForm>
         </div>
     </div>
 </div>
 
 @code {
     private List<PlaneDTO> Datas = new List<PlaneDTO>();
+    private PlaneDTO planeDTO = new PlaneDTO { CallSign = "", Model="", Company="",StartLocation="", EndLocation="", DepartureTime="", ArrivalTime="" };
 
-    public string bindFlight = "";
-    private string bindAirplane = "";
-    private string bindAirline = "";
-    private string bindOrigin = "";
-    private string bindDestination = "";
     private DateTime bindDepartureTime = new DateTime();
     private DateTime bindArrivalTime = new DateTime();
-    private string errorLabel = "";
+    private int result = 0;
+    private string relationship="";
 
     protected PlaneDTO create()
     {
 
-        PlaneDTO DataToSend = new PlaneDTO { CallSign = bindFlight, Model = bindAirplane, Company = bindAirline, StartLocation = bindOrigin, EndLocation = bindDestination, DepartureTime = bindDepartureTime.ToString("dd/MM/yyyy HH:mm:ss"), ArrivalTime = bindArrivalTime.ToString("dd/MM/yyyy HH:mm:ss") };
-        foreach (var data in Datas)
-            if (!(data.Company.Equals(DataToSend.Company) && data.Model.Equals(DataToSend.Model) && data.DepartureTime.Equals(DataToSend.DepartureTime) && data.ArrivalTime.Equals(DataToSend.ArrivalTime)))
-            {
-                break;
-            }
-        return DataToSend;
+        planeDTO.DepartureTime = bindDepartureTime.ToString("dd/MM/yyyy HH:mm:ss");
+        planeDTO.ArrivalTime = bindArrivalTime.ToString("dd/MM/yyyy HH:mm:ss");
+
+        result = DateTime.Compare(bindArrivalTime, bindDepartureTime);
+
+        if (result < 0)
+            relationship = "Cannot add an Arrival Time erlier than Departure Time ";
+        else if (result == 0)
+        {
+            relationship = "Arrival Time and Departure Time are the same";
+            return null;
+        }
+        return planeDTO;
     }
-
-
     protected override async Task OnInitializedAsync()
     {
         Datas = await Http.GetJsonAsync<List<PlaneDTO>>("https://localhost:44397/planes");
@@ -89,5 +103,9 @@
     {
 
         await Http.PostJsonAsync("https://localhost:44397/FlightPlans", create());
+        planeDTO = new PlaneDTO{ CallSign = "", Model="", Company="",StartLocation="", EndLocation="", DepartureTime="", ArrivalTime="" };
+        bindArrivalTime = new DateTime();
+        bindDepartureTime = new DateTime();
+
     }
 }
