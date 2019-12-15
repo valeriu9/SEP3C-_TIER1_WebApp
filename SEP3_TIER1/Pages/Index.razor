@@ -23,7 +23,6 @@
                     <th scope="col">Destination</th>
                     <th scope="col">Delay</th>
                     <th scope="col">Departure time</th>
-                    <th scope="col">Arrival time</th>
                     <th></th>
                 </tr>
             </thead>
@@ -32,7 +31,7 @@
 
                 @{
                     int idn = 1;
-                    foreach (var data in datas)
+                    foreach (var data in datas.OrderBy(x=>x.DepartureTime))
                     {
                         if (data.StartLocation == "Aalborg")
                         {
@@ -46,7 +45,6 @@
                                 <td>@data.EndLocation</td>
                                 <td>@data.Delay</td>
                                 <td>@data.DepartureTime</td>
-                                <td>@data.ArrivalTime</td>
                                 <td valign="middle"><button class="btn btn-danger " @onclick="(e => DeleteItem(data.CallSign))">X</button></td>
                             </tr>
                             idn++;
@@ -73,7 +71,6 @@
                 <th scope="col">Origin</th>
                 <th scope="col">Destination</th>
                 <th scope="col">Delay</th>
-                <th scope="col">Departure time</th>
                 <th scope="col">Arrival time</th>
                 <th></th>
             </tr>
@@ -81,7 +78,7 @@
         <tbody>
             @{
                 int id = 1;
-                foreach (var data in datas)
+                foreach (var data in datas.OrderBy(x=>x.ArrivalTime))
                 {
                     if (!(data.StartLocation == "Aalborg"))
                     {
@@ -94,7 +91,6 @@
                             <td>@data.StartLocation</td>
                             <td>@data.EndLocation</td>
                             <td>@data.Delay</td>
-                            <td>@data.DepartureTime</td>
                             <td>@data.ArrivalTime</td>
                             <td valign="middle"><button class="btn btn-danger " @onclick="(e => DeleteItem(data.CallSign))">X</button></td>
                         </tr>
@@ -108,10 +104,28 @@
 
 @code{
     private List<PlaneDTO> datas = new List<PlaneDTO>();
+    private List<PlaneDTO> planes = new List<PlaneDTO>();
+
+    private void Datas()
+    {
+   foreach (var plane in planes)
+            foreach(var data in datas)
+            {
+
+                if (data.Model==(plane.RegistrationNo))
+                {
+                    data.Model = plane.Model;
+                }
+            }
+    }
+
+
     private PlaneDTO ItemToBeDeleted;
     protected override async Task OnInitializedAsync()
     {
+        planes = await Http.GetJsonAsync<List<PlaneDTO>>("https://localhost:44397/planes");
         datas = await Http.GetJsonAsync<List<PlaneDTO>>("https://localhost:44397/FlightPlans");
+        Datas();
     }
 
     async void DeleteItem(string Flight)
@@ -136,7 +150,7 @@
             {
 
             }
-            
+
         }
     }
 }

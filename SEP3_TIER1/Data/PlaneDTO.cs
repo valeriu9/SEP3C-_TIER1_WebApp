@@ -12,7 +12,7 @@ namespace SEP3_TIER1.Data
         public string CallSign { get; set; }
         [JsonProperty("model")]
         [Required]
-        [StringLength(15, ErrorMessage = "Identifier too long (15 character limit).")]
+        [StringLength(25, ErrorMessage = "Identifier too long (25 character limit).")]
         public string Model { get; set; }
         [Required]
         [StringLength(16, ErrorMessage = "Identifier too long (16 character limit).")]
@@ -34,5 +34,6 @@ namespace SEP3_TIER1.Data
         [JsonProperty("arrivalTime")]
         [Required]
         public string ArrivalTime { get; set; }
+        public string RegistrationNo { get; set; }
     }
 }

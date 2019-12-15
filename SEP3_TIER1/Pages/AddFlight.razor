@@ -7,7 +7,7 @@
     <div class="headertable alignmiddle">
         <label class="text-danger m-2">@relationship</label>
         <div class="card-body">
-            <EditForm Model="@planeDTO"  >
+            <EditForm Model="@planeDTO" >
                 <DataAnnotationsValidator />
                 <div class="form-row">
                     <div class="col-md-3 mb-3">
@@ -17,7 +17,15 @@
                     </div>
                     <div class="col-md-3 mb-3">
                         <label class="mb-3">Airline</label>
-                        <InputText class="form-control" @bind-Value="planeDTO.Company" placeholder="Ex: Wizz Air" />
+                        <InputSelect class="form-control" id="classification" @bind-Value="planeDTO.Company">
+                            @{
+                                <option value="">Select...</option>
+                                foreach (var company in companyList.Distinct())
+                                {
+                                        <option value="@company">@company</option>
+                                }
+                            }
+                        </InputSelect>
                         <ValidationMessage For="@(() => planeDTO.Company)" />
 
                     </div>
@@ -31,7 +39,7 @@
                                     if (data.Company.Contains(planeDTO.Company))
                                     {
 
-                                        <option value="@data.Model">@data.Model</option>
+                                        <option value="@data.RegistrationNo">@data.Model - @data.RegistrationNo</option>
                                     }
                                 }
                             }
@@ -70,18 +78,27 @@
 @code {
     private List<PlaneDTO> Datas = new List<PlaneDTO>();
     private PlaneDTO planeDTO = new PlaneDTO { CallSign = "", Model="", Company="",StartLocation="", EndLocation="", DepartureTime="", ArrivalTime="" };
-
+    private List<string> companyList = new List<string>();
     private DateTime bindDepartureTime = new DateTime();
     private DateTime bindArrivalTime = new DateTime();
     private int result = 0;
     private string relationship="";
+
+
+    protected List<string> GetCompanyList()
+    {
+        foreach(var data in Datas)
+        {
+            companyList.Add(data.Company);
+        }
+        return companyList;
+    }
 
     protected PlaneDTO create()
     {
 
         planeDTO.DepartureTime = bindDepartureTime.ToString("dd/MM/yyyy HH:mm:ss");
         planeDTO.ArrivalTime = bindArrivalTime.ToString("dd/MM/yyyy HH:mm:ss");
-
         result = DateTime.Compare(bindArrivalTime, bindDepartureTime);
 
         if (result < 0)
@@ -96,7 +113,7 @@
     protected override async Task OnInitializedAsync()
     {
         Datas = await Http.GetJsonAsync<List<PlaneDTO>>("https://localhost:44397/planes");
-
+        GetCompanyList();
     }
 
     private async Task postRequest()
