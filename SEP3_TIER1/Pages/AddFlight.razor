@@ -7,7 +7,7 @@
     <div class="headertable alignmiddle">
         <label class="text-danger m-2">@relationship</label>
         <div class="card-body">
-            <EditForm Model="@planeDTO" OnInvalidSubmit="@InvalidSubmit">
+            <EditForm Model="@planeDTO" OnInvalidSubmit="@InvalidSubmit" OnValidSubmit="@postRequest">
                 <DataAnnotationsValidator />
                 <div class="form-row">
                     <div class="col-md-3 mb-3">
@@ -67,7 +67,7 @@
                         <MatDatePicker @bind-Value="bindArrivalTime" Format="dd/MM/yyyy HH:mm"></MatDatePicker>
                     </div>
                     <div class="col-md-3 mb-3">
-                        <center> <button type="submit" class="btn btn-personalized  mt-4" @onclick="postRequest" >Submit</button></center>
+                        <center> <button type="submit" class="btn btn-personalized  mt-4" >Submit</button></center>
                     </div>
                 </div>
             </EditForm>
