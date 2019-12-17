@@ -7,7 +7,7 @@
     <div class="headertable alignmiddle">
         <label class="text-danger m-2">@relationship</label>
         <div class="card-body">
-            <EditForm Model="@planeDTO" >
+            <EditForm Model="@planeDTO" OnInvalidSubmit="@InvalidSubmit">
                 <DataAnnotationsValidator />
                 <div class="form-row">
                     <div class="col-md-3 mb-3">
@@ -84,7 +84,12 @@
     private int result = 0;
     private string relationship="";
 
-
+    protected async Task InvalidSubmit()
+    {
+         planeDTO = new PlaneDTO { CallSign = "", Model="", Company="",StartLocation="", EndLocation="", DepartureTime="", ArrivalTime="" };
+        bindArrivalTime = new DateTime();
+        bindDepartureTime = new DateTime();
+    }
     protected List<string> GetCompanyList()
     {
         foreach(var data in Datas)
@@ -127,19 +132,19 @@
     }
 
     protected int getFlightPlanIndex()
+    {
+        int i = 0;
+        foreach (PlaneDTO flightPlan in Datas.OrderBy(flightPlan => flightPlan.FlightNumber))
         {
-            int i = 0;
-            foreach (PlaneDTO flightPlan in Datas.OrderBy(flightPlan => flightPlan.FlightNumber))
+            if (i == flightPlan.FlightNumber)
             {
-                if (i == flightPlan.FlightNumber)
-                {
-                    i++;
-                }
-                else
-                {
-                    return i;
-                }
+                i++;
             }
-            return Datas.Max(flightPlan => flightPlan.FlightNumber) + 1;
+            else
+            {
+                return i;
+            }
         }
+        return Datas.Max(flightPlan => flightPlan.FlightNumber) + 1;
+    }
 }

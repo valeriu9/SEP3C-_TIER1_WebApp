@@ -906,23 +906,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Fabian\\.nuget\\packages\\": {},
+    "C:\\Users\\valera\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\SEP3_TIER1_Val\\SEP3C-_TIER1_WebApp\\SEP3_TIER1\\SEP3_TIER1.csproj",
+      "projectUniqueName": "C:\\Users\\valera\\Documents\\GitHub\\SEP3_TIER1\\SEP3_TIER1\\SEP3_TIER1.csproj",
       "projectName": "SEP3_TIER1",
-      "projectPath": "D:\\SEP3_TIER1_Val\\SEP3C-_TIER1_WebApp\\SEP3_TIER1\\SEP3_TIER1.csproj",
-      "packagesPath": "C:\\Users\\Fabian\\.nuget\\packages\\",
-      "outputPath": "D:\\SEP3_TIER1_Val\\SEP3C-_TIER1_WebApp\\SEP3_TIER1\\obj\\",
+      "projectPath": "C:\\Users\\valera\\Documents\\GitHub\\SEP3_TIER1\\SEP3_TIER1\\SEP3_TIER1.csproj",
+      "packagesPath": "C:\\Users\\valera\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\valera\\Documents\\GitHub\\SEP3_TIER1\\SEP3_TIER1\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Fabian\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\valera\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
