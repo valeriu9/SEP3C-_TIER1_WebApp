@@ -6,6 +6,7 @@ namespace SEP3_TIER1.Data
 {
     public class PlaneDTO
     {
+        public string RegistrationNo { get; set; }
         [JsonProperty("callSign")]
         [Required]
         [StringLength(10, ErrorMessage = "Identifier too long (10 character limit).")]
@@ -34,6 +35,6 @@ namespace SEP3_TIER1.Data
         [JsonProperty("arrivalTime")]
         [Required]
         public string ArrivalTime { get; set; }
-        public string RegistrationNo { get; set; }
+        public int FlightNumber { get; set; }
     }
 }

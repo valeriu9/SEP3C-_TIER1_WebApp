@@ -108,6 +108,7 @@
             relationship = "Arrival Time and Departure Time are the same";
             return null;
         }
+        planeDTO.FlightNumber = getFlightPlanIndex();
         return planeDTO;
     }
     protected override async Task OnInitializedAsync()
@@ -123,6 +124,22 @@
         planeDTO = new PlaneDTO{ CallSign = "", Model="", Company="",StartLocation="", EndLocation="", DepartureTime="", ArrivalTime="" };
         bindArrivalTime = new DateTime();
         bindDepartureTime = new DateTime();
-
     }
+
+    protected int getFlightPlanIndex()
+        {
+            int i = 0;
+            foreach (PlaneDTO flightPlan in Datas.OrderBy(flightPlan => flightPlan.FlightNumber))
+            {
+                if (i == flightPlan.FlightNumber)
+                {
+                    i++;
+                }
+                else
+                {
+                    return i;
+                }
+            }
+            return Datas.Max(flightPlan => flightPlan.FlightNumber) + 1;
+        }
 }

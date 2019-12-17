@@ -140,7 +140,7 @@
                     if (data.CallSign == Flight)
                     {
                         datas.Remove(data);
-                        await Http.DeleteAsync("https://localhost:44397/FlightPlans/"+data.CallSign);
+                        await Http.DeleteAsync("https://localhost:44397/FlightPlans/"+ data.CallSign + "/" + data.FlightNumber);
                         this.StateHasChanged();
                     }
                 }
